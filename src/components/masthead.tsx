@@ -41,10 +41,10 @@ const Masthead: React.FC = () => {
       {/*   <Image src="/logo.png" width={128 / 3} height={114 / 3} alt="logo" /> */}
       {/* </div> */}
       <div className="p-12 font-bold z-10 text-white drop-shadow-[0_5px_3px_rgba(0,0,0,0.4)] text-center flex-1 flex items-center justify-center flex-col">
-        <h1 className="mb-6 text-5xl xl:text-5xl">色の秘密</h1>
-        <h2 className="mb-2 text-xl xl:text-3xl tracking-tight">
-          <span>花火を追いかけて。</span>
-        </h2>
+        <h1 className="mb-6 text-5xl xl:text-5xl">輝く花の秘密</h1>
+        {/* <h2 className="mb-2 text-xl xl:text-3xl tracking-tight"> */}
+        {/*   <span>花火を追いかけて。</span> */}
+        {/* </h2> */}
       </div>
       <div
         className={`flex-grow-0 pb-10 md:pb-10 transition-all duration-1000 z-10 ${
