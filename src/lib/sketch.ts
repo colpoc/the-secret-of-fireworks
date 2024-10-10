@@ -1,3 +1,4 @@
+import { selectedMetalNumbers } from "@/components/select-metals";
 import p5Types from "p5";
 
 let firework: Firework;
@@ -17,14 +18,14 @@ let test3 = 0;
 // Sr (216, 0, 79);
 // Ba (167, 232, 34);
 // Cu (0, 192, 151);
-let metalcolors = [
+const metalcolors = [
   200, 200, 0, 244, 69, 0, 216, 109, 255, 219, 0, 0, 216, 0, 79, 167, 232, 34,
   0, 192, 151,
 ];
 let colors = [2, 1, 6]; //// Na (200, 200, 0); // Ca (244, 69, 0); // Li (219, 0, 0);
 
-let cx = 520;
-let cy = 450;
+const cx = 520;
+const cy = 450;
 
 let canvasParent: Element;
 let parentStyle: CSSStyleDeclaration;
@@ -39,8 +40,11 @@ const setup = (p5: p5Types, canvasParentRef: Element) => {
     parentStyle = getComputedStyle(canvasParentRef);
   }
   canvasWidth = parseInt(parentStyle.width);
-  canvasHeight = parseInt(parentStyle.height);
+  // canvasHeight = parseInt(parentStyle.height);
+  canvasHeight = 900;
   p5.createCanvas(canvasWidth, canvasHeight).parent(canvasParentRef);
+
+  colors = selectedMetalNumbers;
 
   p5.noStroke();
   let maxRadius = p5.min(p5.width, p5.height) * 0.45;
@@ -101,7 +105,7 @@ class Firework {
         let g = 0;
         let b = 0;
 
-        if (i > 9) {
+        if (9 < i) {
           r = metalcolors[3 * colors[2]];
           g = metalcolors[3 * colors[2] + 1];
           b = metalcolors[3 * colors[2] + 2];
@@ -109,7 +113,7 @@ class Firework {
             console.log("outer", r, g, b);
             test1 = 1;
           }
-        } else if (i > 4) {
+        } else if (4 < i && i <= 9) {
           r = metalcolors[3 * colors[1]];
           g = metalcolors[3 * colors[1] + 1];
           b = metalcolors[3 * colors[1] + 2];
@@ -117,7 +121,7 @@ class Firework {
             console.log("middle", r, g, b);
             test2 = 1;
           }
-        } else if (i > 0) {
+        } else if (0 < i && i <= 4) {
           r = metalcolors[3 * colors[0]];
           g = metalcolors[3 * colors[0] + 1];
           b = metalcolors[3 * colors[0] + 2];

@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import { SpotifyApi } from "@spotify/web-api-ts-sdk";
 import axios from "axios";
+import P5jsContainer from "./p5jsContainer";
 
 // 金属の番号に対応するマッピング
 const metalMap: { [key: string]: number } = {
@@ -14,7 +15,7 @@ const metalMap: { [key: string]: number } = {
 };
 
 // 選択された金属の番号を保持する変数
-let selectedMetalNumbers: number[] = [0, 0, 0];
+export let selectedMetalNumbers: number[] = [0, 0, 0];
 
 // YouTube動画を埋め込むURLを生成する関数
 const getVideoEmbedUrl = (videoId: string) => {
@@ -30,7 +31,11 @@ const playVideo = (
   setVideoId(videoId); // 指定したvideoIdを設定
 };
 
-const SelectMetals: React.FC = () => {
+interface SelectMetalsProps {
+  onLaunch: () => void; // ボタンが押された時のコールバック
+}
+
+const SelectMetals: React.FC<SelectMetalsProps> = ({ onLaunch }) => {
   // 選択された金属を管理するための状態
   const [selectedMetals, setSelectedMetals] = useState({
     metal1: "",
@@ -54,7 +59,7 @@ const SelectMetals: React.FC = () => {
   };
 
   // カスタムスクロール関数
-  const smoothScrollToTop = async () => {
+  const smoothScrollToTopAndBottom = () => {
     playVideo(setVideoId);
 
     // 金属選択に基づいてnumber配列を更新
@@ -66,29 +71,46 @@ const SelectMetals: React.FC = () => {
 
     console.log(selectedMetalNumbers);
 
-    const targetPosition = 0;
-    const startPosition = window.pageYOffset;
-    const distance = targetPosition - startPosition;
-    const duration = 5000; // スクロールにかかる時間
-    let start: number | null = null;
+    // p5jsContainerを表示
+    onLaunch();
 
-    const step = (timestamp: number) => {
-      if (!start) start = timestamp;
-      const progress = timestamp - start;
-      const scrollY = easeInOutQuad(
-        progress,
-        startPosition,
-        distance,
-        duration,
-      );
-      window.scrollTo(0, scrollY);
+    const scrollTo = (target: number, duration: number) => {
+      return new Promise<void>((resolve) => {
+        const startPosition = window.pageYOffset;
+        const distance = target - startPosition;
+        let start: number | null = null;
 
-      if (progress < duration) {
+        const step = (timestamp: number) => {
+          if (!start) start = timestamp;
+          const progress = timestamp - start;
+          const scrollY = easeInOutQuad(
+            progress,
+            startPosition,
+            distance,
+            duration,
+          );
+          window.scrollTo(0, scrollY);
+
+          if (progress < duration) {
+            window.requestAnimationFrame(step);
+          } else {
+            resolve();
+          }
+        };
+
         window.requestAnimationFrame(step);
-      }
+      });
     };
 
-    window.requestAnimationFrame(step);
+    // 上部へのスクロールと下部へのスクロールを順番に実行
+    scrollTo(0, 1000) // 上部スクロール
+      .then(() => {
+        // 一瞬で最下部へスクロール
+        window.scrollTo({
+          top: document.documentElement.scrollHeight,
+          behavior: "instant", // 一瞬でスクロール
+        });
+      });
   };
 
   // イージング関数 (easeInOutQuad)
@@ -165,7 +187,7 @@ const SelectMetals: React.FC = () => {
           <div className="text-center mt-10">
             <button
               type="button"
-              onClick={smoothScrollToTop}
+              onClick={smoothScrollToTopAndBottom}
               className="bg-white text-black rounded-3xl px-8 py-3"
             >
               打ち上げる！
@@ -193,5 +215,4 @@ const SelectMetals: React.FC = () => {
   );
 };
 
-export const getSelectedMetalNumbers = () => selectedMetalNumbers;
 export default SelectMetals;

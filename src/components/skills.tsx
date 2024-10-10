@@ -44,10 +44,10 @@ const Skills: React.FC<Props> = ({ commits, downloads }) => {
 
   return (
     <div ref={refContainer} className="bg-black text-white">
-      <div className="min-h-screen max-w-5xl mx-auto px-10 lg:px-20 py-24 md:py-28 lg:py-36 flex flex-col justify-center items-center text-4xl md:text-6xl ls:text-7xl tracking-widest font-semibold">
+      <div className="min-h-screen max-w-5xl mx-auto px-10 lg:px-20 py-12 md:py-12 lg:py-12 flex flex-col justify-center items-center text-4xl md:text-6xl ls:text-7xl tracking-widest font-semibold">
         <div className="leading-[1.15]">
           <div
-            className={`${s.skillText} text-2xl py-4`}
+            className={`${s.skillText} text-4xl py-4`}
             style={{
               opacity: opacityForBlock(progress, 0),
             }}
@@ -55,7 +55,7 @@ const Skills: React.FC<Props> = ({ commits, downloads }) => {
             わぁ、綺麗…！
           </div>
           <span
-            className={`${s.skillText} text-2xl py-4 block after:content-['_']`}
+            className={`${s.skillText} text-4xl py-4 block after:content-['_']`}
             style={{
               opacity: opacityForBlock(progress, 1),
             }}
@@ -63,7 +63,7 @@ const Skills: React.FC<Props> = ({ commits, downloads }) => {
             でも、不思議。
           </span>
           <span
-            className={`${s.skillText} text-2xl py-4 block`}
+            className={`${s.skillText} text-4xl py-4 block`}
             style={{
               opacity: opacityForBlock(progress, 2),
             }}
@@ -71,7 +71,7 @@ const Skills: React.FC<Props> = ({ commits, downloads }) => {
             花火ってどうやって作るんだろう？
           </span>
           <span
-            className={`${s.skillText} text-2xl py-4 block`}
+            className={`${s.skillText} text-4xl py-4 block`}
             style={{
               opacity: opacityForBlock(progress, 3),
             }}
